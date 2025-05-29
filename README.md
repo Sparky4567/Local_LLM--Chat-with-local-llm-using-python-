@@ -20,7 +20,7 @@ Use (just an example) to pull your desired model.
 ollama pull tinyllama:latest
 ```
 
-Change DEFAULT_MODEL variable value in config/settings.py file.
+Change DEFAULT_LLM_MODEL variable value in config/settings.py file.
 
 Example:
 
