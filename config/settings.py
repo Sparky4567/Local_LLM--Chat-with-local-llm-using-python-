@@ -4,3 +4,6 @@
 
 #DEFAULT_LLM_MODEL = "tinyllama"
 DEFAULT_LLM_MODEL = "qwen3:0.6b"
+
+#Translate content to language (migh need some improvements)
+TRANSLATE_TO = "en"

@@ -2,6 +2,9 @@ from langchain_ollama import OllamaLLM
 from langchain.prompts import PromptTemplate
 from modules.markdown_reader.Reader import Md_reader
 from config.settings import DEFAULT_LLM_MODEL
+import asyncio
+from googletrans import Translator
+from config.settings import TRANSLATE_TO
 # Initialize the Ollama LLM
 llm = OllamaLLM(model=DEFAULT_LLM_MODEL)
 
@@ -40,6 +43,25 @@ def get_an_option():
     except Exception as e:
         get_an_option()
 
+#Google translate function (bulk_translate)
+#Asynchronous approach
+#Passing a list with tupples(objects) inside
+async def translation_function(passed_contents):
+    async with Translator() as translator:
+        #Creating an empty list
+        content_list = []
+        for ob in passed_contents:
+            #Adding content from each object to a list
+            content_list.append(ob["file_content"])
+        #Waiting translation 
+        translations = await translator.translate(content_list, dest=TRANSLATE_TO)
+        #Modifying passed object, redeclaring [file_content] value to translated one
+        for element_index, translation in enumerate(translations):
+            passed_contents[element_index]["file_content"]=translation.text
+        #Returning new/updated list
+        translated_material = passed_contents
+        return translated_material
+
 #switching to action based on an option
 def option_switch(passed_option):
     match passed_option:
@@ -50,7 +72,10 @@ def option_switch(passed_option):
             print("Loading documents...\n")
             m_reader = Md_reader()
             contents = m_reader.get_md_contents()
-            print(f"Content from .md files\n\n {contents}")
+            print(f"Content from .md files:\n\n {contents}\n\n")
+            #Waiting for translation
+            translated_md_content = asyncio.run(translation_function(contents))
+            print(f"Translated material:\n\n {translated_md_content}\n\n")
             quit()
         case 3:
             print("\nQuitting...\n")
