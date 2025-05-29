@@ -111,13 +111,13 @@ def option_switch(passed_option):
             #Waiting for translation
             translated_md_content = asyncio.run(translation_function(contents))
             print(f"Translated material:\n\n {translated_md_content}\n\n")
-            send_notification("Success","All files have beend translated. ✌️","./icons/new_icon.png")
+            send_notification("Success","All files have been translated. ✌️","./icons/new_icon.png")
             user_input = str(input("Save to JSON? y/n\n\n")).lower()
             if(user_input=="y"):
                 print("\n\n===Saving===\n\n")
                 try:
                     write_json(translated_md_content)
-                    send_notification("Success","All files have beend translated and saved to json folder. 💾","./icons/new_icon.png")
+                    send_notification("Success","All files have been translated and saved to json folder. 💾","./icons/new_icon.png")
                 except Exception as e:
                     print(f"Exception: {e}")
                 speak_with_ai()
