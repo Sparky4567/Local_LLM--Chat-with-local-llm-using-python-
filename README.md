@@ -21,3 +21,9 @@ ollama pull tinyllama:latest
 ```
 
 Change DEFAULT_MODEL variable value in config/settings.py file.
+
+Example:
+
+```
+DEFAULT_LLM_MODEL = "tinyllama" or DEFAULT_LLM_MODEL = "tinyllama:latest" (if you have multiple models)
+```
