@@ -32,7 +32,7 @@ def print_options():
     for opt in options:
         print(f"{opt['number']}. {opt['name']}")
 
-#getting a option
+#getting an input option
 def get_an_option():
     try:
         user_option = int(str(input("\nWrite a number: \n\n")))
