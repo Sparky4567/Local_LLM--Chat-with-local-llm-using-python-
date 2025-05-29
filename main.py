@@ -5,6 +5,7 @@ from config.settings import DEFAULT_LLM_MODEL
 import asyncio
 from googletrans import Translator
 from config.settings import TRANSLATE_TO
+from notifypy import Notify
 # Initialize the Ollama LLM
 llm = OllamaLLM(model=DEFAULT_LLM_MODEL)
 
@@ -43,6 +44,13 @@ def get_an_option():
     except Exception as e:
         get_an_option()
 
+def send_notification(title,message):
+    notification = Notify()
+    notification.title = title
+    notification.message = message
+    notification.icon = "./icons/new_icon.png"
+    notification.send()
+
 #Google translate function (bulk_translate)
 #Asynchronous approach
 #Passing a list with tupples(objects) inside
@@ -76,6 +84,7 @@ def option_switch(passed_option):
             #Waiting for translation
             translated_md_content = asyncio.run(translation_function(contents))
             print(f"Translated material:\n\n {translated_md_content}\n\n")
+            send_notification("Success","All files have beend translated. ✌️")
             quit()
         case 3:
             print("\nQuitting...\n")
