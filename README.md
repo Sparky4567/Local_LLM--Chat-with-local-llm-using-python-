@@ -12,5 +12,12 @@ Follow instructions to configure appropriate version for your operating system a
 
 ```
 uv run main.py
+```
+
+Use (just an example) to pull your desired model.
 
 ```
+ollama pull tinyllama:latest
+```
+
+Change DEFAULT_MODEL variable value in config/settings.py file.
