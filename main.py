@@ -49,7 +49,8 @@ def option_switch(passed_option):
         case 2:
             print("Loading documents...\n")
             m_reader = Md_reader()
-            m_reader.get_md_files()
+            contents = m_reader.get_md_contents()
+            print(f"Content from .md files\n\n {contents}")
             quit()
         case 3:
             print("\nQuitting...\n")

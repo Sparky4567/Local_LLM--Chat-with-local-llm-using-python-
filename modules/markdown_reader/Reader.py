@@ -19,7 +19,7 @@ class Md_reader:
                 content += line
         return content
 
-    def get_md_files(self):
+    def get_md_contents(self):
         try:
             path = self.get_full_path()
             md_files = Path(path).rglob("*.md")
@@ -33,6 +33,6 @@ class Md_reader:
                 "file_content":file_content   
                 }
                 self.content_list.append(ob)
-            print(self.content_list)
+            return self.content_list
         except Exception as e:
             print(f"Exception: {e}")
