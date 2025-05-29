@@ -6,6 +6,8 @@ import asyncio
 from googletrans import Translator
 from config.settings import TRANSLATE_TO
 from notifypy import Notify
+from pathlib import Path
+import json
 # Initialize the Ollama LLM
 llm = OllamaLLM(model=DEFAULT_LLM_MODEL)
 
@@ -74,6 +76,26 @@ async def translation_function(passed_contents):
         #Returning new/updated list
         translated_material = passed_contents
         return translated_material
+    
+def write_json(content):
+    save_path = Path("./json").resolve().as_posix()
+    default_val = 1
+    default_file = f"{save_path}/{default_val}.json"
+    if(Path(default_file).is_file()):
+        json_files = Path(save_path).rglob("*.json")
+        for file in json_files:
+            default_val += 1
+        new_file = f"{save_path}/{default_val}.json"
+        with open(new_file,"w") as f:
+            f.write(json.dumps(content, indent=2))
+            f.close()
+    else:
+        with open(default_file,"w") as f:
+            f.write(json.dumps(content, indent=2))
+            f.close()
+    
+
+
 
 #switching to action based on an option
 def option_switch(passed_option):
@@ -90,7 +112,19 @@ def option_switch(passed_option):
             translated_md_content = asyncio.run(translation_function(contents))
             print(f"Translated material:\n\n {translated_md_content}\n\n")
             send_notification("Success","All files have beend translated. ✌️","./icons/new_icon.png")
-            quit()
+            user_input = str(input("Save to JSON? y/n\n\n")).lower()
+            if(user_input=="y"):
+                print("\n\n===Saving===\n\n")
+                try:
+                    write_json(translated_md_content)
+                    send_notification("Success","All files have beend translated and saved to json folder. 💾","./icons/new_icon.png")
+                except Exception as e:
+                    print(f"Exception: {e}")
+                speak_with_ai()
+            elif(user_input=="n"):
+                speak_with_ai()
+            else:
+                speak_with_ai()
         case 3:
             print("\nQuitting...\n")
             quit()
