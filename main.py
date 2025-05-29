@@ -1,5 +1,6 @@
 from langchain_ollama import OllamaLLM
 from langchain.prompts import PromptTemplate
+from modules.markdown_reader.Reader import Md_reader
 from config.settings import DEFAULT_LLM_MODEL
 # Initialize the Ollama LLM
 llm = OllamaLLM(model=DEFAULT_LLM_MODEL)
@@ -47,6 +48,8 @@ def option_switch(passed_option):
             get_response_from_ai()
         case 2:
             print("Loading documents...\n")
+            m_reader = Md_reader()
+            m_reader.get_md_files()
             quit()
         case 3:
             print("\nQuitting...\n")
