@@ -44,11 +44,16 @@ def get_an_option():
     except Exception as e:
         get_an_option()
 
-def send_notification(title,message):
+#Function to send a notification
+def send_notification(title,message,icon_path):
+    #Notification 
     notification = Notify()
+    #Notification title
     notification.title = title
+    #Notification message
     notification.message = message
-    notification.icon = "./icons/new_icon.png"
+    #Notification icon
+    notification.icon = icon_path
     notification.send()
 
 #Google translate function (bulk_translate)
@@ -84,7 +89,7 @@ def option_switch(passed_option):
             #Waiting for translation
             translated_md_content = asyncio.run(translation_function(contents))
             print(f"Translated material:\n\n {translated_md_content}\n\n")
-            send_notification("Success","All files have beend translated. ✌️")
+            send_notification("Success","All files have beend translated. ✌️","./icons/new_icon.png")
             quit()
         case 3:
             print("\nQuitting...\n")
