@@ -7,7 +7,10 @@ from googletrans import Translator
 from config.settings import TRANSLATE_TO
 from notifypy import Notify
 from pathlib import Path
+from config.settings import VOICE_INPUT
 import json
+from modules.voice_recognition.voice import Voice_Recognition
+from time import sleep as pause
 # Initialize the Ollama LLM
 llm = OllamaLLM(model=DEFAULT_LLM_MODEL)
 
@@ -134,7 +137,17 @@ def option_switch(passed_option):
 
 #initiating ai_response
 def get_response_from_ai():
-    user_input = str(input("Your question: "))
+    if(VOICE_INPUT == True):
+        try:
+            vr = Voice_Recognition()
+            user_input = str(vr.get_voice_input())
+        except Exception as e:
+            print(f"Error: {e}\n\n")
+            print("Microphone issue... Trying again in 10 seconds.\n\n")
+            pause(10)
+            get_response_from_ai()
+    else:
+        user_input = str(input("Your question: "))
     # response = llm.invoke(prompt.format(question=user_input))
     print("\n")
     formatted_prompt = prompt.format(question=user_input)

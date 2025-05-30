@@ -11,4 +11,7 @@ dependencies = [
     "langchain-ollama>=0.3.3",
     "notify-py>=0.3.43",
     "pathlib>=1.0.1",
+    "pocketsphinx>=5.0.4",
+    "pyaudio>=0.2.14",
+    "speechrecognition>=3.14.3",
 ]

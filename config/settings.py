@@ -7,3 +7,7 @@ DEFAULT_LLM_MODEL = "qwen3:0.6b"
 
 #Translate content to language (migh need some improvements)
 TRANSLATE_TO = "en"
+
+#Do you want to use voice input?
+#VOICE_INPUT = False
+VOICE_INPUT = True
