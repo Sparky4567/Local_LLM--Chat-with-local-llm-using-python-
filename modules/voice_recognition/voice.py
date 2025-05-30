@@ -9,9 +9,8 @@ class Voice_Recognition:
         with sr.Microphone() as source:
             print("Say something! \n\n")
             audio = recognizer.listen(source)
-
         try:
-            self.text = recognizer.recognize_google(audio)
+            self.text = recognizer.recognize_sphinx(audio)
             return str(self.text)
         except sr.UnknownValueError:
             print("Google Speech Recognition could not understand audio. ❌")
