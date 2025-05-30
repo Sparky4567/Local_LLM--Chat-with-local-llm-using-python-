@@ -143,7 +143,7 @@ def get_response_from_ai():
             user_input = str(vr.get_voice_input())
         except Exception as e:
             print(f"Error: {e}\n\n")
-            print("Microphone issue... Trying again in 10 seconds.\n\n")
+            print(f"Microphone issue: '{e}' ❌. Trying again in 10 seconds.\n\n")
             pause(10)
             get_response_from_ai()
     else:

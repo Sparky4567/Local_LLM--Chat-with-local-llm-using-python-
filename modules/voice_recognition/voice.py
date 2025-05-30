@@ -7,16 +7,15 @@ class Voice_Recognition:
     def get_voice_input(self):
         recognizer = sr.Recognizer()
         with sr.Microphone() as source:
-            print("Say something!\n\n")
+            print("Say something! \n\n")
             audio = recognizer.listen(source)
+
         try:
-            print("You said: " + recognizer.recognize_sphinx(audio))
+            self.text = recognizer.recognize_google(audio)
+            return str(self.text)
         except sr.UnknownValueError:
-            print("Could not understand audio. Try again. \n\n")
+            print("Google Speech Recognition could not understand audio. ❌")
             self.get_voice_input()
         except sr.RequestError as e:
-            print(f"Sphinx error: {e}\n\n")
-            self.get_voice_input()
-        except Exception as e:
-            print(f"Error: {e}")
+            print(f"Could not request results: {e}. ❌")
             self.get_voice_input()
