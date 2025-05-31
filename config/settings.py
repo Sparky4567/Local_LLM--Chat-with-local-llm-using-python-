@@ -10,4 +10,4 @@ TRANSLATE_TO = "en"
 
 #Do you want to use voice input?
 #VOICE_INPUT = False
-VOICE_INPUT = True
+VOICE_INPUT = False
