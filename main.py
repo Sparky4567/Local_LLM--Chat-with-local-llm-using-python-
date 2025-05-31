@@ -27,10 +27,14 @@ options = [
     },
     {
         "number":2,
-        "name":"Load some documents... (Not implemented yet)"
+        "name":"Load some documents into the base... (Not implemented yet)"
     },
     {
         "number":3,
+        "name":"Chat with your documents base... (Not implemented yet)"
+    },
+    {
+        "number":4,
         "name":"Quit"
     }
 ]
@@ -96,9 +100,6 @@ def write_json(content):
         with open(default_file,"w") as f:
             f.write(json.dumps(content, indent=2))
             f.close()
-    
-
-
 
 #switching to action based on an option
 def option_switch(passed_option):
@@ -129,7 +130,10 @@ def option_switch(passed_option):
             else:
                 speak_with_ai()
         case 3:
-            print("\nQuitting...\n")
+            print("\nPrepairing your database. 📗\n")
+            speak_with_ai()
+        case 4:
+            print("\nQuitting... 🚪\n")
             quit()
         case _:
             print("\nHuh? \n")
@@ -167,7 +171,7 @@ def speak_with_ai():
         print(f"Exception: {e}")
         speak_with_ai()
     except KeyboardInterrupt:
-        print("Quiting...")
+        print("Quiting... 🚪")
         quit()
 
 speak_with_ai()
