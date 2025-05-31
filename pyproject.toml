@@ -13,6 +13,7 @@ dependencies = [
     "pathlib>=1.0.1",
     "pocketsphinx>=5.0.4",
     "pyaudio>=0.2.14",
+    "rapidfuzz>=3.13.0",
     "speechrecognition>=3.14.3",
     "thefuzz>=0.22.1",
 ]

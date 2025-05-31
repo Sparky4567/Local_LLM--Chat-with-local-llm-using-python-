@@ -415,6 +415,7 @@ dependencies = [
     { name = "pathlib" },
     { name = "pocketsphinx" },
     { name = "pyaudio" },
+    { name = "rapidfuzz" },
     { name = "speechrecognition" },
     { name = "thefuzz" },
 ]
@@ -429,6 +430,7 @@ requires-dist = [
     { name = "pathlib", specifier = ">=1.0.1" },
     { name = "pocketsphinx", specifier = ">=5.0.4" },
     { name = "pyaudio", specifier = ">=0.2.14" },
+    { name = "rapidfuzz", specifier = ">=3.13.0" },
     { name = "speechrecognition", specifier = ">=3.14.3" },
     { name = "thefuzz", specifier = ">=0.22.1" },
 ]

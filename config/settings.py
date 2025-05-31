@@ -11,3 +11,6 @@ TRANSLATE_TO = "en"
 #Do you want to use voice input?
 #VOICE_INPUT = False
 VOICE_INPUT = False
+
+#SIMILARITY_TRESHHOLD
+SIMILARITY_TRESHHOLD = 60

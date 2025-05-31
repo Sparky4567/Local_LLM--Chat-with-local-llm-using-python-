@@ -11,6 +11,7 @@ from config.settings import VOICE_INPUT
 import json
 from modules.voice_recognition.voice import Voice_Recognition
 from time import sleep as pause
+from modules.markdowndb.markdowndb import MarkdownDB
 # Initialize the Ollama LLM
 llm = OllamaLLM(model=DEFAULT_LLM_MODEL)
 
@@ -101,37 +102,67 @@ def write_json(content):
             f.write(json.dumps(content, indent=2))
             f.close()
 
+def save_to_db():
+    try:
+        m_db = MarkdownDB()
+        json_path = Path("./json").resolve().as_posix()
+        json_files = Path(json_path).rglob("*.json")
+        for json_file in json_files:
+            file_route = json_file.resolve().as_posix()
+            print(file_route)
+    except Exception as e:  
+        print(f"Exception: {e} ❌.")
+
+def save_json(content):
+    user_input = str(input("Save to JSON? y/n\n\n")).lower()
+    if(user_input=="y"):
+        print("\n\n===Saving===\n\n")
+        try:
+            write_json(content)
+            send_notification("Success","All files have been translated and saved to json folder. 💾","./icons/new_icon.png")
+        except Exception as e:
+            print(f"Exception: {e}")
+
+def save_db():
+    db_input = str(input("Want to create a database? y/n\n\n")).lower()
+    if(db_input=="y"):
+        print("\n\n===Saving into sqlite database===\n\n")
+        try:
+            save_to_db()
+            send_notification("Success","All JSON files have been stored in the database. 💾","./icons/new_icon.png")
+        except Exception as e:
+            print(f"Exception: {e}")
+
 #switching to action based on an option
 def option_switch(passed_option):
     match passed_option:
         case 1:
-            print("\n")
-            get_response_from_ai()
+            try:
+                print("\n")
+                get_response_from_ai()
+            except Exception as e:
+                print(f"Exception: {e} ❌.")
         case 2:
-            print("Loading documents...\n")
-            m_reader = Md_reader()
-            contents = m_reader.get_md_contents()
-            print(f"Content from .md files:\n\n {contents}\n\n")
-            #Waiting for translation
-            translated_md_content = asyncio.run(translation_function(contents))
-            print(f"Translated material:\n\n {translated_md_content}\n\n")
-            send_notification("Success","All files have been translated. ✌️","./icons/new_icon.png")
-            user_input = str(input("Save to JSON? y/n\n\n")).lower()
-            if(user_input=="y"):
-                print("\n\n===Saving===\n\n")
-                try:
-                    write_json(translated_md_content)
-                    send_notification("Success","All files have been translated and saved to json folder. 💾","./icons/new_icon.png")
-                except Exception as e:
-                    print(f"Exception: {e}")
+            try:
+                print("Loading documents...\n")
+                m_reader = Md_reader()
+                contents = m_reader.get_md_contents()
+                print(f"Content from .md files:\n\n {contents}\n\n")
+                #Waiting for translation
+                translated_md_content = asyncio.run(translation_function(contents))
+                print(f"Translated material:\n\n {translated_md_content}\n\n")
+                send_notification("Success","All files have been translated. ✌️","./icons/new_icon.png")
+                save_json(translated_md_content)
+                save_db()
                 speak_with_ai()
-            elif(user_input=="n"):
-                speak_with_ai()
-            else:
-                speak_with_ai()
+            except Exception as e:
+                print(f"Exception: {e} ❌.")
         case 3:
-            print("\nPrepairing your database. 📗\n")
-            speak_with_ai()
+            try:
+                print("\nPrepairing your database. 📗\n")
+                speak_with_ai()
+            except Exception as e:
+                print(f"Exception: {e} ❌.")
         case 4:
             print("\nQuitting... 🚪\n")
             quit()
