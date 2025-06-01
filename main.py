@@ -4,6 +4,7 @@ from modules.markdown_reader.Reader import Md_reader
 from config.settings import DEFAULT_LLM_MODEL
 import asyncio
 from googletrans import Translator
+from config.settings import TRANSLATION
 from config.settings import TRANSLATE_TO
 from notifypy import Notify
 from pathlib import Path
@@ -141,7 +142,7 @@ def speak_with_database():
         speak_with_database()
     except Exception as e:
         speak_with_ai()
-        print(f"Exception: {e}. ❌")
+        print(f"Exception: {e} ❌.")
 
 
 
@@ -154,7 +155,7 @@ def save_json(content):
             write_json(content)
             send_notification("Success","All files have been translated and saved to json folder. 💾","./icons/new_icon.png")
         except Exception as e:
-            print(f"Exception: {e}")
+            print(f"Exception: {e} ❌.")
 
 def save_db():
     db_input = str(input("Want to create a database? y/n\n\n")).lower()
@@ -182,10 +183,14 @@ def option_switch(passed_option):
                 contents = m_reader.get_md_contents()
                 print(f"Content from .md files:\n\n {contents}\n\n")
                 #Waiting for translation
-                translated_md_content = asyncio.run(translation_function(contents))
-                print(f"Translated material:\n\n {translated_md_content}\n\n")
-                send_notification("Success","All files have been translated. ✌️","./icons/new_icon.png")
-                save_json(translated_md_content)
+                if(TRANSLATION == True):
+                    translated_md_content = asyncio.run(translation_function(contents))
+                    send_notification("Success","All files have been translated. ✌️","./icons/new_icon.png")
+                    save_json(translated_md_content)
+                else:
+                    save_json(contents)
+                # print(f"Not translated material:\n\n {contents}\n\n")
+                # print(f"Translated material:\n\n {translated_md_content}\n\n")
                 save_db()
                 speak_with_ai()
             except Exception as e:

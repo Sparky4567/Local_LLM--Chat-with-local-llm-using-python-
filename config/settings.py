@@ -6,6 +6,7 @@
 DEFAULT_LLM_MODEL = "qwen3:0.6b"
 
 #Translate content to language (migh need some improvements)
+TRANSLATION = False
 TRANSLATE_TO = "en"
 
 #Do you want to use voice input?
@@ -14,3 +15,4 @@ VOICE_INPUT = False
 
 #SIMILARITY_TRESHHOLD
 SIMILARITY_TRESHHOLD = 20
+
