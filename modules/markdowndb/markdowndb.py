@@ -34,7 +34,7 @@ class MarkdownDB:
         results = []
         for file_name, file_route, file_content in all_rows:
             score = fuzz.ratio(str(keyword).strip().lower(), str(file_content).strip().lower())
-            print(score)
+            # print(score)
             if score >= threshold:
                 results.append({
                     "file_name": file_name,

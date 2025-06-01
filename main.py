@@ -133,12 +133,21 @@ def get_from_database(passed_input):
     except Exception as e:
         print(f"Error {e}")
 
+def chunk_print(text, chunk_size=10, delay=0.2):
+    for i in range(0, len(text), chunk_size):
+        print(text[i:i+chunk_size], end='', flush=True)
+        pause(delay)
+    print() 
+
 def speak_with_database():
     try:
         user_input = input("\nYour query:\n\n")
         user_input = str(user_input).strip().lower()
         results = get_from_database(user_input)
-        print(results)
+        # print(results)
+        for pos,res in enumerate(results,start=1):
+            print(f"Result: {pos}\n\n")
+            chunk_print(res["file_content"])
         speak_with_database()
     except Exception as e:
         speak_with_ai()
@@ -229,6 +238,8 @@ def get_response_from_ai():
         print(chunk, end='', flush=True)
     print("\n\n")
     get_response_from_ai()
+
+
 
 #initiating main function
 def speak_with_ai():
