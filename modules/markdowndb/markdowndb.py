@@ -31,10 +31,10 @@ class MarkdownDB:
         cursor = self.conn.cursor()
         cursor.execute("SELECT file_name, file_route, file_content FROM markdown_files")
         all_rows = cursor.fetchall()
-
         results = []
         for file_name, file_route, file_content in all_rows:
-            score = fuzz.ratio(keyword.lower(), str(file_content).lower())
+            score = fuzz.ratio(str(keyword).strip().lower(), str(file_content).strip().lower())
+            print(score)
             if score >= threshold:
                 results.append({
                     "file_name": file_name,

@@ -12,6 +12,7 @@ import json
 from modules.voice_recognition.voice import Voice_Recognition
 from time import sleep as pause
 from modules.markdowndb.markdowndb import MarkdownDB
+from config.settings import SIMILARITY_TRESHHOLD
 # Initialize the Ollama LLM
 llm = OllamaLLM(model=DEFAULT_LLM_MODEL)
 
@@ -123,6 +124,28 @@ def save_to_db():
     except Exception as e:  
         print(f"Exception: {e} ❌.")
 
+def get_from_database(passed_input):
+    try:
+        m_db = MarkdownDB()
+        results = m_db.search_fuzzy(passed_input, SIMILARITY_TRESHHOLD)
+        return results
+    except Exception as e:
+        print(f"Error {e}")
+
+def speak_with_database():
+    try:
+        user_input = input("\nYour query:\n\n")
+        user_input = str(user_input).strip().lower()
+        results = get_from_database(user_input)
+        print(results)
+        speak_with_database()
+    except Exception as e:
+        speak_with_ai()
+        print(f"Exception: {e}. ❌")
+
+
+
+
 def save_json(content):
     user_input = str(input("Save to JSON? y/n\n\n")).lower()
     if(user_input=="y"):
@@ -170,6 +193,7 @@ def option_switch(passed_option):
         case 3:
             try:
                 print("\nPrepairing your database. 📗\n")
+                speak_with_database()
                 speak_with_ai()
             except Exception as e:
                 print(f"Exception: {e} ❌.")
