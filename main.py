@@ -158,7 +158,7 @@ def save_json(content):
             print(f"Exception: {e} ❌.")
 
 def save_db():
-    db_input = str(input("Want to create a database? y/n\n\n")).lower()
+    db_input = str(input("Want to update a database? y/n\n\n")).lower()
     if(db_input=="y"):
         print("\n\n===Saving into sqlite database===\n\n")
         try:
