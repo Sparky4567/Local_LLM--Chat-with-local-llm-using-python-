@@ -25,6 +25,7 @@ class MarkdownDB:
                 INSERT INTO markdown_files (file_name, file_route, file_content)
                 VALUES (:file_name, :file_route, :file_content)
             """, json_data)
+            self.conn.commit()
 
     def search_fuzzy(self, keyword: str, threshold: int = SIMILARITY_TRESHHOLD) -> List[Dict]:
         cursor = self.conn.cursor()
@@ -33,7 +34,7 @@ class MarkdownDB:
 
         results = []
         for file_name, file_route, file_content in all_rows:
-            score = fuzz.ratio(keyword.lower(), file_content.lower())
+            score = fuzz.ratio(keyword.lower(), str(file_content).lower())
             if score >= threshold:
                 results.append({
                     "file_name": file_name,

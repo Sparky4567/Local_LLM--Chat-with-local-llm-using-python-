@@ -110,6 +110,16 @@ def save_to_db():
         for json_file in json_files:
             file_route = json_file.resolve().as_posix()
             print(file_route)
+            # m_db.insert_from_json(file_route)
+            line = ""
+            with open(file_route, "r") as f:
+                lines = f.readlines()
+                for l in lines:
+                    line = line + l
+            # print(line)
+            # print(json.loads(line))
+            m_db.insert_from_json(json.loads(str(line).strip()))
+        print(f"Done ✅")
     except Exception as e:  
         print(f"Exception: {e} ❌.")
 
