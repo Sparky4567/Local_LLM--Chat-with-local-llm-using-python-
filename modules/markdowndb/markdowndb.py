@@ -11,18 +11,19 @@ class MarkdownDB:
 
     def _create_table(self):
         with self.conn:
-            self.conn.execute("""
+            self.conn.executemany("""
                 CREATE TABLE IF NOT EXISTS markdown_files (
-                    file_name TEXT,
-                    file_route TEXT,
-                    file_content TEXT
-                )
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                file_name TEXT,
+                file_route TEXT,
+                file_content TEXT UNIQUE
+            );
             """)
 
     def insert_from_json(self, json_data: List[Dict]):
         with self.conn:
             self.conn.executemany("""
-                INSERT INTO markdown_files (file_name, file_route, file_content)
+                INSERT OR IGNORE INTO markdown_files (file_name, file_route, file_content)
                 VALUES (:file_name, :file_route, :file_content)
             """, json_data)
             self.conn.commit()
