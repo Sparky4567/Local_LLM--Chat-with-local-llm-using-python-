@@ -11,7 +11,7 @@ class MarkdownDB:
 
     def _create_table(self):
         with self.conn:
-            self.conn.executemany("""
+            self.conn.execute("""
                 CREATE TABLE IF NOT EXISTS markdown_files (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 file_name TEXT,
@@ -19,6 +19,7 @@ class MarkdownDB:
                 file_content TEXT UNIQUE
             );
             """)
+            self.conn.commit()
 
     def insert_from_json(self, json_data: List[Dict]):
         with self.conn:
