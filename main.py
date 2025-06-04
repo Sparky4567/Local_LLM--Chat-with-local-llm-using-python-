@@ -145,12 +145,19 @@ def speak_with_database():
         user_input = str(user_input).strip().lower()
         results = get_from_database(user_input)
         # print(results)
+        text_to_pass = ""
         for pos,res in enumerate(results,start=1):
             print(f"Result: {pos}\n\n")
-            chunk_print(res["file_content"])
-        speak_with_database()
+            file_content = res["file_content"]
+            chunk_print(file_content)
+            text_to_pass = str(text_to_pass) + file_content
+            text_to_pass = str(text_to_pass).strip()
+        try:
+            get_response_from_ai_db_content(text_to_pass)
+        except Exception as e:
+            print(f"Exception: {e} ❌.")
     except Exception as e:
-        speak_with_ai()
+        speak_with_database()
         print(f"Exception: {e} ❌.")
 
 
@@ -208,7 +215,7 @@ def option_switch(passed_option):
             try:
                 print("\nPrepairing your database. 📗\n")
                 speak_with_database()
-                speak_with_ai()
+                # speak_with_ai()
             except Exception as e:
                 print(f"Exception: {e} ❌.")
         case 4:
@@ -240,6 +247,30 @@ def get_response_from_ai():
     get_response_from_ai()
 
 
+#initiating ai_response_adding_content_from_db
+def get_response_from_ai_db_content(content):
+    if(VOICE_INPUT == True):
+        try:
+            vr = Voice_Recognition()
+            user_input = str(vr.get_voice_input())
+        except Exception as e:
+            print(f"Error: {e}\n\n")
+            print(f"Microphone issue: '{e}' ❌. Trying again in 10 seconds.\n\n")
+            pause(10)
+            get_response_from_ai_db_content()
+    else:
+        user_input = str(input("Your question (for example, do something with the results): "))
+
+    extra_prompt = str(f"I'm adding some text to analyze")
+    user_input = str(f"{extra_prompt}: {content},{user_input}")
+    
+    # response = llm.invoke(prompt.format(question=user_input))
+    print("\n")
+    formatted_prompt = prompt.format(question=user_input)
+    for chunk in llm.stream(formatted_prompt):
+        print(chunk, end='', flush=True)
+    print("\n\n")
+    # speak_with_database()
 
 #initiating main function
 def speak_with_ai():
