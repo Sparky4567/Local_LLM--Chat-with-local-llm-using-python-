@@ -30,11 +30,11 @@ options = [
     },
     {
         "number":2,
-        "name":"Load some documents into the base... (Not implemented yet)"
+        "name":"Load some documents into the base"
     },
     {
         "number":3,
-        "name":"Chat with your documents base... (Not implemented yet)"
+        "name":"Chat with your documents base"
     },
     {
         "number":4,
@@ -144,7 +144,7 @@ def speak_with_database():
         user_input = input("\nYour query:\n\n")
         user_input = str(user_input).strip().lower()
         results = get_from_database(user_input)
-        # print(results)
+        print(results)
         for pos,res in enumerate(results,start=1):
             print(f"Result: {pos}\n\n")
             chunk_print(res["file_content"])

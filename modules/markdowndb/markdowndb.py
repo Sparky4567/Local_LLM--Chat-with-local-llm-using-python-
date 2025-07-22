@@ -42,7 +42,6 @@ class MarkdownDB:
                     "file_content": file_content,
                     "score": score
                 })
-
         # Sort results by score descending
         results.sort(key=lambda x: x["score"], reverse=True)
         return results
